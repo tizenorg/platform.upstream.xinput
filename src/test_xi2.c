@@ -72,7 +72,7 @@ static void print_deviceevent(XIDeviceEvent* event)
         if (XIMaskIsSet(event->valuators.mask, i))
             printf("        %i: %.2f\n", i, *val++);
 
-    printf("    windows: root 0x%lx event 0x%lx child 0x%ld\n",
+    printf("    windows: root 0x%lx event 0x%lx child 0x%lx\n",
             event->root, event->event, event->child);
 }
 
