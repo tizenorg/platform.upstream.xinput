@@ -324,7 +324,7 @@ test_xi2(Display	*display,
         int nmods = sizeof(modifiers)/sizeof(modifiers[0]);
 
         mask.deviceid = 2;
-        memset(mask.mask, 0, 2);
+        memset(mask.mask, 0, mask.mask_len);
         XISetMask(mask.mask, XI_KeyPress);
         XISetMask(mask.mask, XI_KeyRelease);
         XISetMask(mask.mask, XI_ButtonPress);
@@ -339,7 +339,7 @@ test_xi2(Display	*display,
     }
 
     mask.deviceid = XIAllMasterDevices;
-    memset(mask.mask, 0, 2);
+    memset(mask.mask, 0, mask.mask_len);
     XISetMask(mask.mask, XI_RawKeyPress);
     XISetMask(mask.mask, XI_RawKeyRelease);
     XISetMask(mask.mask, XI_RawButtonPress);
