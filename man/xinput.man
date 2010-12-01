@@ -98,7 +98,7 @@ loop displaying events received. If the -proximity is given, ProximityIn
 and ProximityOut are registered.
 .PP
 .TP 8
-.B --test_xi2
+.B --test-xi2
 Register for a number of XI2 events and display them. This option does not
 take a device argument.
 .PP
