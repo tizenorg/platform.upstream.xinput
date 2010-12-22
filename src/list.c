@@ -23,7 +23,6 @@
 
 #include "xinput.h"
 #include <string.h>
-#include <X11/extensions/XIproto.h> /* for XI_Device***ChangedNotify */
 
 static void
 print_info(Display* dpy, XDeviceInfo	*info, Bool shortformat)
