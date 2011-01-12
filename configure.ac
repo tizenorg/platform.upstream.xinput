@@ -14,7 +14,6 @@ XORG_DEFAULT_OPTIONS
 
 AM_CONFIG_HEADER(config.h)
 
-AC_PROG_CC
 
 
 # Checks for pkg-config packages
