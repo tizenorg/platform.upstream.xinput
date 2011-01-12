@@ -16,7 +16,6 @@ AM_CONFIG_HEADER(config.h)
 
 AC_PROG_CC
 AC_PROG_INSTALL
-AC_PROG_SED
 
 
 # Checks for pkg-config packages
