@@ -25,7 +25,6 @@ PKG_CHECK_MODULES(XI2, [xi >= 1.2.99.2] [inputproto >= 1.9.99.15],
                   HAVE_XI2="no");
 AM_CONDITIONAL(HAVE_XI2, [ test "$HAVE_XI2" = "yes" ])
 
-AC_SUBST(XINPUT_LIBS)
 AC_SUBST(HAVE_XI2)
 
 AC_SUBST(VERSION)
