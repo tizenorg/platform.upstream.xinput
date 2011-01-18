@@ -25,6 +25,7 @@
 #include <string.h>
 
 enum print_format {
+    FORMAT_NONE,
     FORMAT_SHORT,
     FORMAT_LONG,
     FORMAT_NAME,
@@ -315,8 +316,8 @@ list(Display	*display,
      char	*name,
      char	*desc)
 {
-    enum print_format format = FORMAT_SHORT;
-    int arg_dev = 0;
+    enum print_format format = FORMAT_NONE;
+    int arg_dev = 1;
 
     if (argc >= 1)
     {
@@ -328,11 +329,14 @@ list(Display	*display,
             format = FORMAT_NAME;
         else if (strcmp(argv[0], "--id-only") == 0)
             format = FORMAT_ID;
-        arg_dev++;
+        else
+            arg_dev--;
     }
 
     if (argc > arg_dev)
     {
+        if (format == FORMAT_NONE)
+            format = FORMAT_LONG;
 #ifdef HAVE_XI2
         if (xinput_version(display) == XI_2_Major)
         {
@@ -359,6 +363,8 @@ list(Display	*display,
             }
         }
     } else {
+        if (format == FORMAT_NONE)
+            format = FORMAT_SHORT;
 #ifdef HAVE_XI2
         if (xinput_version(display) == XI_2_Major)
             return list_xi2(display, format);
