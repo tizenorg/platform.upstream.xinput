@@ -26,7 +26,8 @@
 
 enum print_format {
     FORMAT_SHORT,
-    FORMAT_LONG
+    FORMAT_LONG,
+    FORMAT_NAME
 };
 
 
@@ -39,6 +40,12 @@ print_info(Display* dpy, XDeviceInfo	*info, enum print_format format)
     XButtonInfoPtr	b;
     XValuatorInfoPtr	v;
     XAxisInfoPtr	a;
+
+    if (format == FORMAT_NAME)
+    {
+        printf("%s\n", info->name);
+        return;
+    }
 
     printf("\"%s\"\tid=%ld\t[", info->name, info->id);
 
@@ -192,6 +199,12 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
 static void
 print_info_xi2(Display* display, XIDeviceInfo *dev, enum print_format format)
 {
+    if (format == FORMAT_NAME)
+    {
+        printf("%s\n", dev->name);
+        return;
+    }
+
     printf("%-40s\tid=%d\t[", dev->name, dev->deviceid);
     switch(dev->use)
     {
@@ -246,10 +259,13 @@ list_xi2(Display *display,
         dev = &info[i];
         if (dev->use == XIMasterPointer || dev->use == XIMasterKeyboard)
         {
-            if (dev->use == XIMasterPointer)
-                printf("⎡ ");
-            else
-                printf("⎣ ");
+            if (format == FORMAT_SHORT || format == FORMAT_LONG)
+            {
+                if (dev->use == XIMasterPointer)
+                    printf("⎡ ");
+                else
+                    printf("⎣ ");
+            }
 
             print_info_xi2(display, dev, format);
             for (j = 0; j < ndevices; j++)
@@ -259,7 +275,8 @@ list_xi2(Display *display,
                 if ((sd->use == XISlavePointer || sd->use == XISlaveKeyboard) &&
                      (sd->attachment == dev->deviceid))
                 {
-                    printf("%s   ↳ ", dev->use == XIMasterPointer ? "⎜" : " ");
+                    if (format == FORMAT_SHORT || format == FORMAT_LONG)
+                        printf("%s   ↳ ", dev->use == XIMasterPointer ? "⎜" : " ");
                     print_info_xi2(display, sd, format);
                 }
             }
@@ -298,6 +315,8 @@ list(Display	*display,
             format = FORMAT_SHORT;
         else if (strcmp(argv[0], "--long") == 0)
             format = FORMAT_LONG;
+        else if (strcmp(argv[0], "--name-only") == 0)
+            format = FORMAT_NAME;
         arg_dev++;
     }
 

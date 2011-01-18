@@ -68,7 +68,7 @@ static entry drivers[] =
      set_mode
     },
     {"list",
-     "[--short || --long] [<device name>...]",
+     "[--short || --long || --name-only] [<device name>...]",
      list
     },
     {"query-state",
