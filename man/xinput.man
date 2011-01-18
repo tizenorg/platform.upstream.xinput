@@ -17,7 +17,7 @@ of the program and the version supported by the server. This option does not
 require a device name.
 .PP
 .TP 8
-.B --list [--short || --long || --name-only] [\fIdevice\fP]
+.B --list [--short || --long || --name-only || --id-only] [\fIdevice\fP]
 If no argument is given list all the input devices. If an argument is given,
 show all the features of \fIdevice\fP.
 If --long is provided, the output includes detailed information about the
@@ -26,6 +26,9 @@ device names and some minimal information is listed.
 If --name-only is provided, the output is limited to the device names. One
 device name is listed per line. Note that the order the devices are listed
 is undefined.
+If --id-only is provided, the output is limited to the device IDs. One
+device ID is listed per line. Note that the order the devices are listed is
+undefined.
 .PP
 .TP 8
 .B --get-feedbacks \fIdevice\fP

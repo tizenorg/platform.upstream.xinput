@@ -27,7 +27,8 @@
 enum print_format {
     FORMAT_SHORT,
     FORMAT_LONG,
-    FORMAT_NAME
+    FORMAT_NAME,
+    FORMAT_ID,
 };
 
 
@@ -44,6 +45,10 @@ print_info(Display* dpy, XDeviceInfo	*info, enum print_format format)
     if (format == FORMAT_NAME)
     {
         printf("%s\n", info->name);
+        return;
+    } else if (format == FORMAT_ID)
+    {
+        printf("%ld\n", info->id);
         return;
     }
 
@@ -203,6 +208,10 @@ print_info_xi2(Display* display, XIDeviceInfo *dev, enum print_format format)
     {
         printf("%s\n", dev->name);
         return;
+    } else if (format == FORMAT_ID)
+    {
+        printf("%d\n", dev->deviceid);
+        return;
     }
 
     printf("%-40s\tid=%d\t[", dev->name, dev->deviceid);
@@ -317,6 +326,8 @@ list(Display	*display,
             format = FORMAT_LONG;
         else if (strcmp(argv[0], "--name-only") == 0)
             format = FORMAT_NAME;
+        else if (strcmp(argv[0], "--id-only") == 0)
+            format = FORMAT_ID;
         arg_dev++;
     }
 
