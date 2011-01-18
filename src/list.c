@@ -24,8 +24,14 @@
 #include "xinput.h"
 #include <string.h>
 
+enum print_format {
+    FORMAT_SHORT,
+    FORMAT_LONG
+};
+
+
 static void
-print_info(Display* dpy, XDeviceInfo	*info, Bool shortformat)
+print_info(Display* dpy, XDeviceInfo	*info, enum print_format format)
 {
     int			i,j;
     XAnyClassPtr	any;
@@ -58,7 +64,7 @@ print_info(Display* dpy, XDeviceInfo	*info, Bool shortformat)
     }
     printf("]\n");
 
-    if (shortformat)
+    if (format == FORMAT_SHORT)
         return;
 
     if(info->type != None)
@@ -103,7 +109,7 @@ print_info(Display* dpy, XDeviceInfo	*info, Bool shortformat)
 }
 
 static int list_xi1(Display     *display,
-                    int	        shortformat)
+                    enum print_format format)
 {
     XDeviceInfo		*info;
     int			loop;
@@ -111,7 +117,7 @@ static int list_xi1(Display     *display,
 
     info = XListInputDevices(display, &num_devices);
     for(loop=0; loop<num_devices; loop++) {
-        print_info(display, info+loop, shortformat);
+        print_info(display, info+loop, format);
     }
     return EXIT_SUCCESS;
 }
@@ -184,7 +190,7 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
 }
 
 static void
-print_info_xi2(Display* display, XIDeviceInfo *dev, Bool shortformat)
+print_info_xi2(Display* display, XIDeviceInfo *dev, enum print_format format)
 {
     printf("%-40s\tid=%d\t[", dev->name, dev->deviceid);
     switch(dev->use)
@@ -206,7 +212,7 @@ print_info_xi2(Display* display, XIDeviceInfo *dev, Bool shortformat)
             break;
     }
 
-    if (shortformat)
+    if (format == FORMAT_SHORT)
         return;
 
     if (!dev->enabled)
@@ -218,7 +224,7 @@ print_info_xi2(Display* display, XIDeviceInfo *dev, Bool shortformat)
 
 static int
 list_xi2(Display *display,
-         int     shortformat)
+         enum print_format format)
 {
     int major = XI_2_Major,
         minor = XI_2_Minor;
@@ -245,7 +251,7 @@ list_xi2(Display *display,
             else
                 printf("⎣ ");
 
-            print_info_xi2(display, dev, shortformat);
+            print_info_xi2(display, dev, format);
             for (j = 0; j < ndevices; j++)
             {
                 XIDeviceInfo* sd = &info[j];
@@ -254,7 +260,7 @@ list_xi2(Display *display,
                      (sd->attachment == dev->deviceid))
                 {
                     printf("%s   ↳ ", dev->use == XIMasterPointer ? "⎜" : " ");
-                    print_info_xi2(display, sd, shortformat);
+                    print_info_xi2(display, sd, format);
                 }
             }
         }
@@ -266,7 +272,7 @@ list_xi2(Display *display,
         if (dev->use == XIFloatingSlave)
         {
             printf("∼ ");
-            print_info_xi2(display, dev, shortformat);
+            print_info_xi2(display, dev, format);
         }
     }
 
@@ -283,9 +289,17 @@ list(Display	*display,
      char	*name,
      char	*desc)
 {
-    int shortformat = (argc >= 1 && strcmp(argv[0], "--short") == 0);
-    int longformat = (argc >= 1 && strcmp(argv[0], "--long") == 0);
-    int arg_dev = shortformat || longformat;
+    enum print_format format = FORMAT_SHORT;
+    int arg_dev = 0;
+
+    if (argc >= 1)
+    {
+        if (strcmp(argv[0], "--short") == 0)
+            format = FORMAT_SHORT;
+        else if (strcmp(argv[0], "--long") == 0)
+            format = FORMAT_LONG;
+        arg_dev++;
+    }
 
     if (argc > arg_dev)
     {
@@ -298,7 +312,7 @@ list(Display	*display,
                 fprintf(stderr, "unable to find device %s\n", argv[arg_dev]);
                 return EXIT_FAILURE;
             } else {
-                print_info_xi2(display, info, shortformat);
+                print_info_xi2(display, info, format);
                 return EXIT_SUCCESS;
             }
         } else
@@ -310,16 +324,16 @@ list(Display	*display,
                 fprintf(stderr, "unable to find device %s\n", argv[arg_dev]);
                 return EXIT_FAILURE;
             } else {
-                print_info(display, info, shortformat);
+                print_info(display, info, format);
                 return EXIT_SUCCESS;
             }
         }
     } else {
 #ifdef HAVE_XI2
         if (xinput_version(display) == XI_2_Major)
-            return list_xi2(display, !longformat);
+            return list_xi2(display, format);
 #endif
-        return list_xi1(display, !longformat);
+        return list_xi1(display, format);
     }
 }
 
