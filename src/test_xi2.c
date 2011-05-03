@@ -99,7 +99,7 @@ static void print_hierarchychangedevent(XIHierarchyEvent *event)
 
     for (i = 0; i < event->num_info; i++)
     {
-        char *use;
+        char *use = "<undefined>";
         switch(event->info[i].use)
         {
             case XIMasterPointer: use = "master pointer"; break;
@@ -149,7 +149,8 @@ static void print_rawevent(XIRawEvent *event)
 
 static void print_enterleave(XILeaveEvent* event)
 {
-    char *mode, *detail;
+    char *mode = "<undefined>",
+         *detail = "<undefined>";
     int i;
 
     printf("    device: %d (%d)\n", event->deviceid, event->sourceid);
