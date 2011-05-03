@@ -59,7 +59,7 @@ print_property(Display *dpy, XDevice* dev, Atom property)
     int                 act_format;
     unsigned long       nitems, bytes_after;
     unsigned char       *data, *ptr;
-    int                 j, done = False, size;
+    int                 j, done = False, size = 0;
 
     name = XGetAtomName(dpy, property);
     printf("\t%s (%ld):\t", name, property);
