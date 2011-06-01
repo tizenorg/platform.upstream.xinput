@@ -184,6 +184,16 @@ xinput_version(Display	*display)
 	XFree(version);
     }
 
+#if HAVE_XI2
+    /* Announce our supported version so the server treats us correctly. */
+    if (vers >= XI_2_Major)
+    {
+        int maj = 2,
+            min = 0;
+        XIQueryVersion(display, &maj, &min);
+    }
+#endif
+
     return vers;
 }
 
