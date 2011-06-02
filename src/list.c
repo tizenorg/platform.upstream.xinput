@@ -181,8 +181,7 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
                     XIValuatorClassInfo *v = (XIValuatorClassInfo*)classes[i];
                     char *name = v->label ?  XGetAtomName(display, v->label) : NULL;
 
-                    /* XXX: Bug in X servers 1.7..1.8.1, mode was |
-                       OutOfProximity. Remove this once 1.9 is out. */
+                    /* Bug in X servers 1.7..1.8.1, mode was | OutOfProximity */
                     v->mode &= DeviceMode;
 
                     printf("\t\tDetail for Valuator %d:\n", v->number);
