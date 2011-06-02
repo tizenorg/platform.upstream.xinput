@@ -139,6 +139,15 @@ Remove \fIslave\fP from its current master device.
 Set the ClientPointer for the client owning \fIwindow\fP to \fImaster\fP.
 \fImaster\fP must specify a master pointer.
 .PP
+.TP 8
+.B --map-to-crtc \fIdevice\fP \fIcrtc\fP
+Restricts the movements of the absolute \fIdevice\fP to the RandR
+\fIcrtc\fP. The CRTC name must match a currently connected CRTC (see
+\fIxrandr(__appmansuffix__)\fP). If the NVIDIA binary driver is
+detected or RandR 1.2 or later is not available, a Xinerama output may be
+specified as "HEAD-N", with N being the Xinerama screen number. This option
+has no effect on relative devices.
+.PP
 \fIdevice\fP can be the device name as a string or the XID of the
 device.
 .PP
@@ -151,7 +160,7 @@ device.
 \fIproperty\fP can be the property as a string or the Atom value.
 .PP
 .SH "SEE ALSO"
-X(__miscmansuffix__), xset(__appmansuffix__)
+X(__miscmansuffix__), xset(__appmansuffix__), xrandr(__appmansuffix__)
 .SH COPYRIGHT
 Copyright 1996,1997, Frederic Lepied.
 .PP

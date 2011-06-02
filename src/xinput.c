@@ -104,6 +104,10 @@ static entry drivers[] =
       "<device>",
       test_xi2,
     },
+    { "map-to-crtc",
+      "<device> <crtc name>",
+      map_to_crtc,
+    },
 #endif
     { "list-props",
       "<device> [<device> ...]",
