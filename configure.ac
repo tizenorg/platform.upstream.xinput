@@ -27,8 +27,6 @@ AM_CONDITIONAL(HAVE_XI2, [ test "$HAVE_XI2" = "yes" ])
 
 AC_SUBST(HAVE_XI2)
 
-AC_SUBST(VERSION)
-
 AC_OUTPUT([Makefile
            src/Makefile
            man/Makefile])
