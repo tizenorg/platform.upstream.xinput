@@ -1,8 +1,14 @@
 dnl  Copyright 2007 Peter Hutterer <peter@cs.unisa.edu.au>
 dnl Process this file with autoconf to create configure.
 
+# Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT(xinput,[1.5.3], [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],xinput)
+AC_INIT([xinput], [1.5.3],
+	[https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], [xinput])
+AC_CONFIG_SRCDIR([Makefile.am])
+AC_CONFIG_HEADERS([config.h])
+
+# Initialize Automake
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_MAINTAINER_MODE
 
@@ -12,11 +18,7 @@ m4_ifndef([XORG_MACROS_VERSION],
 XORG_MACROS_VERSION(1.8)
 XORG_DEFAULT_OPTIONS
 
-AC_CONFIG_HEADERS([config.h])
-
-
-
-# Checks for pkg-config packages
+# Obtain compiler/linker options for dependencies
 PKG_CHECK_MODULES(XINPUT, x11 xext [xi >= 1.2] [inputproto >= 1.5])
 
 # XI2 support
