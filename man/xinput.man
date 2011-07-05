@@ -155,7 +155,11 @@ X(__miscmansuffix__), xset(__appmansuffix__)
 .SH COPYRIGHT
 Copyright 1996,1997, Frederic Lepied.
 .PP
+Copyright 2007, Peter Hutterer.
+.PP
 Copyright 2008, Philip Langdale.
+.PP
+Copyright 2009-2011, Red Hat, Inc.
 
 .SH AUTHORS
 
