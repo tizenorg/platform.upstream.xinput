@@ -164,9 +164,9 @@ Copyright 2009-2011, Red Hat, Inc.
 .SH AUTHORS
 
 .nf
+Peter Hutterer <peter.hutterer@who-t.net>
 Philip Langdale, <philipl@alumni.utexas.net>
 Frederic Lepied, France <Frederic.Lepied@sugix.frmug.org>
-Peter Hutterer <peter.hutterer@who-t.net>
 Julien Cristau <jcristau@debian.org>
 Thomas Jaeger <ThJaeger@gmail.com>
 and more.
