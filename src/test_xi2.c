@@ -48,7 +48,17 @@ static void print_deviceevent(XIDeviceEvent* event)
 
     printf("    device: %d (%d)\n", event->deviceid, event->sourceid);
     printf("    detail: %d\n", event->detail);
-    printf("    flags: %s\n", (event->flags & XIKeyRepeat) ? "repeat" : "");
+    switch(event->evtype) {
+        case XI_KeyPress:
+        case XI_KeyRelease:
+            printf("    flags: %s\n", (event->flags & XIKeyRepeat) ?  "repeat" : "");
+            break;
+        case XI_ButtonPress:
+        case XI_ButtonRelease:
+        case XI_Motion:
+            printf("    flags: %s\n", (event->flags & XIPointerEmulated) ?  "emulated" : "");
+            break;
+    }
 
     printf("    root: %.2f/%.2f\n", event->root_x, event->root_y);
     printf("    event: %.2f/%.2f\n", event->event_x, event->event_y);
