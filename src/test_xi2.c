@@ -53,11 +53,13 @@ static void print_deviceevent(XIDeviceEvent* event)
         case XI_KeyRelease:
             printf("    flags: %s\n", (event->flags & XIKeyRepeat) ?  "repeat" : "");
             break;
+#if HAVE_XI21
         case XI_ButtonPress:
         case XI_ButtonRelease:
         case XI_Motion:
             printf("    flags: %s\n", (event->flags & XIPointerEmulated) ?  "emulated" : "");
             break;
+#endif
     }
 
     printf("    root: %.2f/%.2f\n", event->root_x, event->root_y);
@@ -148,6 +150,15 @@ static void print_rawevent(XIRawEvent *event)
     printf("    device: %d\n", event->deviceid);
     printf("    detail: %d\n", event->detail);
     printf("    valuators:\n");
+#if HAVE_XI21
+    switch(event->evtype) {
+        case XI_RawButtonPress:
+        case XI_RawButtonRelease:
+        case XI_RawMotion:
+            printf("    flags: %s\n", (event->flags & XIPointerEmulated) ?  "emulated" : "");
+            break;
+    }
+#endif
 
     val = event->valuators.values;
     raw_val = event->raw_values;
