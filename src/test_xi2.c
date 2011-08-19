@@ -306,12 +306,18 @@ test_xi2(Display	*display,
 {
     XIEventMask mask;
     Window win;
+    int deviceid = -1;
 
     list(display, argc, argv, name, desc);
+    if (argc >= 1) {
+        XIDeviceInfo *info;
+        info = xi2_find_device_info(display, argv[0]);
+        deviceid = info->deviceid;
+    }
     win = create_win(display);
 
     /* Select for motion events */
-    mask.deviceid = XIAllDevices;
+    mask.deviceid = (deviceid == -1) ? XIAllDevices : deviceid;
     mask.mask_len = XIMaskLen(XI_RawMotion);
     mask.mask = calloc(mask.mask_len, sizeof(char));
     XISetMask(mask.mask, XI_ButtonPress);
@@ -324,7 +330,8 @@ test_xi2(Display	*display,
     XISetMask(mask.mask, XI_Leave);
     XISetMask(mask.mask, XI_FocusIn);
     XISetMask(mask.mask, XI_FocusOut);
-    XISetMask(mask.mask, XI_HierarchyChanged);
+    if (mask.deviceid == XIAllDevices)
+        XISetMask(mask.mask, XI_HierarchyChanged);
     XISetMask(mask.mask, XI_PropertyEvent);
     XISelectEvents(display, win, &mask, 1);
     XMapWindow(display, win);
@@ -349,7 +356,7 @@ test_xi2(Display	*display,
         XIUngrabKeycode(display, 3, 24 /* q */, win, nmods - 2, &modifiers[2]);
     }
 
-    mask.deviceid = XIAllMasterDevices;
+    mask.deviceid = (deviceid == -1) ? XIAllMasterDevices : deviceid;
     memset(mask.mask, 0, mask.mask_len);
     XISetMask(mask.mask, XI_RawKeyPress);
     XISetMask(mask.mask, XI_RawKeyRelease);
