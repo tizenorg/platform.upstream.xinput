@@ -146,13 +146,14 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
     printf("\tReporting %d classes:\n", num_classes);
     for (i = 0; i < num_classes; i++)
     {
-        printf("\t\tClass originated from: %d\n", classes[i]->sourceid);
+        printf("\t\tClass originated from: %d. Type: ", classes[i]->sourceid);
         switch(classes[i]->type)
         {
             case XIButtonClass:
                 {
                     XIButtonClassInfo *b = (XIButtonClassInfo*)classes[i];
                     char *name;
+                    printf("XIButtonClass\n");
                     printf("\t\tButtons supported: %d\n", b->num_buttons);
                     printf("\t\tButton labels:");
                     for (j = 0; j < b->num_buttons; j++)
@@ -173,6 +174,7 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
             case XIKeyClass:
                 {
                     XIKeyClassInfo *k = (XIKeyClassInfo*)classes[i];
+                    printf("XIKeyClass\n");
                     printf("\t\tKeycodes supported: %d\n", k->num_keycodes);
                 }
                 break;
@@ -184,6 +186,7 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
                     /* Bug in X servers 1.7..1.8.1, mode was | OutOfProximity */
                     v->mode &= DeviceMode;
 
+                    printf("XIValuatorClass\n");
                     printf("\t\tDetail for Valuator %d:\n", v->number);
                     printf("\t\t  Label: %s\n",  (name) ? name : "None");
                     printf("\t\t  Range: %f - %f\n", v->min, v->max);
