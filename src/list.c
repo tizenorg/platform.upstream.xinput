@@ -159,7 +159,10 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
                     for (j = 0; j < b->num_buttons; j++)
                     {
                         name = (b->labels[j]) ? XGetAtomName(display, b->labels[j]) : NULL;
-                        printf(" %s", (name) ? name : "None");
+                        if (name)
+                            printf(" \"%s\"", name);
+                        else
+                            printf(" None");
                         XFree(name);
                     }
                     printf("\n");
