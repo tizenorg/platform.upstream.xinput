@@ -45,8 +45,11 @@ PKG_CHECK_MODULES(XI2, [xi >= 1.2.99.2] [inputproto >= 1.9.99.15],
                   HAVE_XI2="yes"; AC_DEFINE(HAVE_XI2, 1, [XI2 available]),
                   HAVE_XI2="no");
 AM_CONDITIONAL(HAVE_XI2, [ test "$HAVE_XI2" = "yes" ])
-
 AC_SUBST(HAVE_XI2)
+
+# XI2.1 support
+PKG_CHECK_MODULES(XI21, [xi >= 1.4.99.1] [inputproto >= 2.0.99.1],
+                  AC_DEFINE(HAVE_XI21, 1, [XI2.1 available]));
 
 AC_OUTPUT([Makefile
            src/Makefile

@@ -201,6 +201,30 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
                     XFree(name);
                 }
                 break;
+#if HAVE_XI21
+            case XIScrollClass:
+                {
+                    XIScrollClassInfo *s = (XIScrollClassInfo*)classes[i];
+
+                    printf("XIScrollClass\n");
+                    printf("\t\tScroll info for Valuator %d\n", s->number);
+                    printf("\t\t  type: %d (%s)\n", s->scroll_type,
+                           (s->scroll_type == XIScrollTypeHorizontal) ? "horizontal" :
+                              (s->scroll_type == XIScrollTypeVertical) ? "vertical" : "unknown");
+                    printf("\t\t  increment: %f\n", s->increment);
+                    printf("\t\t  flags: 0x%x", s->flags);
+                    if (s->flags) {
+                        printf(" (");
+                        if (s->flags & XIScrollFlagNoEmulation)
+                            printf(" no-emulation ");
+                        if (s->flags & XIScrollFlagPreferred)
+                            printf(" preferred ");
+                        printf(")");
+                    }
+                    printf("\n");
+                }
+                break;
+#endif
         }
     }
 
