@@ -194,6 +194,11 @@ xinput_version(Display	*display)
     {
         int maj = 2,
             min = 0;
+
+#if HAVE_XI21
+        min = 1;
+#endif
+
         XIQueryVersion(display, &maj, &min);
     }
 #endif
