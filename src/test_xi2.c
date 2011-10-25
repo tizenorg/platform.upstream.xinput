@@ -329,7 +329,7 @@ test_xi2(Display	*display,
 
     /* Select for motion events */
     mask.deviceid = (deviceid == -1) ? XIAllDevices : deviceid;
-    mask.mask_len = XIMaskLen(XI_RawMotion);
+    mask.mask_len = XIMaskLen(XI_LASTEVENT);
     mask.mask = calloc(mask.mask_len, sizeof(char));
     XISetMask(mask.mask, XI_ButtonPress);
     XISetMask(mask.mask, XI_ButtonRelease);
