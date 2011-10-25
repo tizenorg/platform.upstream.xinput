@@ -197,6 +197,8 @@ xinput_version(Display	*display)
 
 #if HAVE_XI21
         min = 1;
+#elif HAVE_XI22
+        min = 2;
 #endif
 
         XIQueryVersion(display, &maj, &min);
