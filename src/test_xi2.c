@@ -324,8 +324,12 @@ test_xi2(Display	*display,
     XIEventMask mask;
     Window win;
     int deviceid = -1;
+    int rc;
 
-    list(display, argc, argv, name, desc);
+    rc = list(display, argc, argv, name, desc);
+    if (rc != EXIT_SUCCESS)
+        return rc;
+
     if (argc >= 1) {
         XIDeviceInfo *info;
         info = xi2_find_device_info(display, argv[0]);
