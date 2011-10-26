@@ -278,18 +278,9 @@ static int
 list_xi2(Display *display,
          enum print_format format)
 {
-    int major = 2,
-        minor = 0;
     int ndevices;
     int i, j;
     XIDeviceInfo *info, *dev;
-
-    if (XIQueryVersion(display, &major, &minor) != Success ||
-        (major * 1000 + minor) < 2000)
-    {
-        fprintf(stderr, "XI2 not supported.\n");
-        return EXIT_FAILURE;
-    }
 
     info = XIQueryDevice(display, XIAllDevices, &ndevices);
 
