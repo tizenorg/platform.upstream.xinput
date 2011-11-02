@@ -432,6 +432,9 @@ test_xi2(Display	*display,
                 case XI_RawButtonPress:
                 case XI_RawButtonRelease:
                 case XI_RawMotion:
+                case XI_RawTouchBegin:
+                case XI_RawTouchUpdate:
+                case XI_RawTouchEnd:
                     print_rawevent(cookie->data);
                     break;
                 case XI_Enter:
