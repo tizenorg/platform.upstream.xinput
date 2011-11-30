@@ -346,13 +346,12 @@ main(int argc, char * argv[])
     char        *func;
     int event, error;
 
-    if (argc < 2) {
-	usage();
-	return EXIT_FAILURE;
+    if (argc > 1) {
+	func = argv[1];
+	while(func[0] == '-') func++;
+    } else {
+	func = "list";
     }
-
-    func = argv[1];
-    while((*func) == '-') func++;
 
     if (strcmp("version", func) == 0) {
         return print_version(argv[0]);
