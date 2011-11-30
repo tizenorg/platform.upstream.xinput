@@ -357,6 +357,11 @@ main(int argc, char * argv[])
         return print_version(argv[0]);
     }
 
+    if (strcmp("help", func) == 0) {
+        usage();
+        return 0;
+    }
+
     display = XOpenDisplay(NULL);
 
     if (display == NULL) {
