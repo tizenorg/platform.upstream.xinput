@@ -143,8 +143,8 @@ static entry drivers[] =
 
 static const char version_id[] = VERSION;
 
-int
-print_version()
+static int
+print_version(void)
 {
     XExtensionVersion	*version;
     Display *display;
@@ -354,7 +354,7 @@ main(int argc, char * argv[])
     }
 
     if (strcmp("version", func) == 0) {
-        return print_version(argv[0]);
+        return print_version();
     }
 
     if (strcmp("help", func) == 0) {
