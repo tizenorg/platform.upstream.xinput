@@ -225,6 +225,17 @@ print_classes_xi2(Display* display, XIAnyClassInfo **classes,
                 }
                 break;
 #endif
+#if HAVE_XI22
+            case XITouchClass:
+                {
+                    XITouchClassInfo *t = (XITouchClassInfo*)classes[i];
+
+                    printf("XITouchClass\n");
+                    printf("\t\tTouch mode: %s\n",
+                           (t->mode == XIDirectTouch) ? "direct" : "dependent");
+                    printf("\t\tMax number of touches: %d\n", t->num_touches);
+                }
+#endif
         }
     }
 

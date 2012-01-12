@@ -301,6 +301,12 @@ static const char* type_to_name(int evtype)
         case XI_RawButtonPress:   name = "RawButtonPress";      break;
         case XI_RawButtonRelease: name = "RawButtonRelease";    break;
         case XI_RawMotion:        name = "RawMotion";           break;
+        case XI_TouchBegin:       name = "TouchBegin";          break;
+        case XI_TouchUpdate:      name = "TouchUpdate";         break;
+        case XI_TouchEnd:         name = "TouchEnd";            break;
+        case XI_RawTouchBegin:    name = "RawTouchBegin";       break;
+        case XI_RawTouchUpdate:   name = "RawTouchUpdate";      break;
+        case XI_RawTouchEnd:      name = "RawTouchEnd";         break;
         default:
                                   name = "unknown event type"; break;
     }
@@ -318,8 +324,12 @@ test_xi2(Display	*display,
     XIEventMask mask;
     Window win;
     int deviceid = -1;
+    int rc;
 
-    list(display, argc, argv, name, desc);
+    rc = list(display, argc, argv, name, desc);
+    if (rc != EXIT_SUCCESS)
+        return rc;
+
     if (argc >= 1) {
         XIDeviceInfo *info;
         info = xi2_find_device_info(display, argv[0]);
@@ -329,7 +339,7 @@ test_xi2(Display	*display,
 
     /* Select for motion events */
     mask.deviceid = (deviceid == -1) ? XIAllDevices : deviceid;
-    mask.mask_len = XIMaskLen(XI_RawMotion);
+    mask.mask_len = XIMaskLen(XI_LASTEVENT);
     mask.mask = calloc(mask.mask_len, sizeof(char));
     XISetMask(mask.mask, XI_ButtonPress);
     XISetMask(mask.mask, XI_ButtonRelease);
@@ -341,6 +351,11 @@ test_xi2(Display	*display,
     XISetMask(mask.mask, XI_Leave);
     XISetMask(mask.mask, XI_FocusIn);
     XISetMask(mask.mask, XI_FocusOut);
+#ifdef HAVE_XI22
+    XISetMask(mask.mask, XI_TouchBegin);
+    XISetMask(mask.mask, XI_TouchUpdate);
+    XISetMask(mask.mask, XI_TouchEnd);
+#endif
     if (mask.deviceid == XIAllDevices)
         XISetMask(mask.mask, XI_HierarchyChanged);
     XISetMask(mask.mask, XI_PropertyEvent);
@@ -374,6 +389,11 @@ test_xi2(Display	*display,
     XISetMask(mask.mask, XI_RawButtonPress);
     XISetMask(mask.mask, XI_RawButtonRelease);
     XISetMask(mask.mask, XI_RawMotion);
+#ifdef HAVE_XI22
+    XISetMask(mask.mask, XI_RawTouchBegin);
+    XISetMask(mask.mask, XI_RawTouchUpdate);
+    XISetMask(mask.mask, XI_RawTouchEnd);
+#endif
     XISelectEvents(display, DefaultRootWindow(display), &mask, 1);
 
     free(mask.mask);
@@ -412,6 +432,9 @@ test_xi2(Display	*display,
                 case XI_RawButtonPress:
                 case XI_RawButtonRelease:
                 case XI_RawMotion:
+                case XI_RawTouchBegin:
+                case XI_RawTouchUpdate:
+                case XI_RawTouchEnd:
                     print_rawevent(cookie->data);
                     break;
                 case XI_Enter:
