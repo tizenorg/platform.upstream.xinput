@@ -140,9 +140,9 @@ Set the ClientPointer for the client owning \fIwindow\fP to \fImaster\fP.
 \fImaster\fP must specify a master pointer.
 .PP
 .TP 8
-.B --map-to-crtc \fIdevice\fP \fIcrtc\fP
+.B --map-to-output \fIdevice\fP \fIcrtc\fP
 Restricts the movements of the absolute \fIdevice\fP to the RandR
-\fIcrtc\fP. The CRTC name must match a currently connected CRTC (see
+\fIcrtc\fP. The output name must match a currently connected output (see
 \fIxrandr(__appmansuffix__)\fP). If the NVIDIA binary driver is
 detected or RandR 1.2 or later is not available, a Xinerama output may be
 specified as "HEAD-N", with N being the Xinerama screen number. This option

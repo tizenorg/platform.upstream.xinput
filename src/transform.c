@@ -136,7 +136,7 @@ set_transformation_matrix(Display *dpy, Matrix *m, int offset_x, int offset_y,
 }
 
 static int
-map_crtc_xrandr(Display *dpy, int deviceid, const char *output_name)
+map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
 {
     int i, found = 0;
     int rc = EXIT_FAILURE;
@@ -178,7 +178,7 @@ map_crtc_xrandr(Display *dpy, int deviceid, const char *output_name)
 }
 
 static int
-map_crtc_xinerama(Display *dpy, int deviceid, const char *output_name)
+map_output_xinerama(Display *dpy, int deviceid, const char *output_name)
 {
     const char *prefix = "HEAD-";
     XineramaScreenInfo *screens = NULL;
@@ -229,11 +229,11 @@ out:
 }
 
 int
-map_to_crtc(Display *dpy, int argc, char *argv[], char *name, char *desc)
+map_to_output(Display *dpy, int argc, char *argv[], char *name, char *desc)
 {
     int opcode, event, error;
     int maj, min;
-    char *crtc_name;
+    char *output_name;
     XIDeviceInfo *info;
 
     if (argc < 2)
@@ -249,15 +249,15 @@ map_to_crtc(Display *dpy, int argc, char *argv[], char *name, char *desc)
         return EXIT_FAILURE;
     }
 
-    crtc_name = argv[1];
+    output_name = argv[1];
 
     /* Check for RandR 1.2. Server bug causes the NVIDIA driver to
-     * report with RandR 1.3 support but it doesn't expose RandR CRTCs.
+     * report with RandR 1.3 support but it doesn't expose RandR outputs.
      * Force Xinerama if NV-CONTROL is present */
     if (XQueryExtension(dpy, "NV-CONTROL", &opcode, &event, &error) ||
         !XQueryExtension(dpy, "RANDR", &opcode, &event, &error) ||
         !XRRQueryVersion(dpy, &maj, &min) || (maj * 1000 + min) < 1002)
-       return map_crtc_xinerama(dpy, info->deviceid, crtc_name);
+       return map_output_xinerama(dpy, info->deviceid, output_name);
     else
-       return map_crtc_xrandr(dpy, info->deviceid, crtc_name);
+       return map_output_xrandr(dpy, info->deviceid, output_name);
 }
