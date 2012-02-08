@@ -142,7 +142,6 @@ map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
     int rc = EXIT_FAILURE;
     XRRScreenResources *res;
     XRROutputInfo *output_info;
-    XRRCrtcInfo *crtc_info;
 
     res = XRRGetScreenResources(dpy, DefaultRootWindow(dpy));
 
@@ -152,7 +151,6 @@ map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
         if (!output_info->crtc || output_info->connection != RR_Connected)
             continue;
 
-        crtc_info = XRRGetCrtcInfo (dpy, res, output_info->crtc);
         if (strcmp(output_info->name, output_name) == 0)
         {
             found = 1;
@@ -163,11 +161,14 @@ map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
     /* crtc holds our screen info, need to compare to actual screen size */
     if (found)
     {
+        XRRCrtcInfo *crtc_info;
         Matrix m;
         matrix_set_unity(&m);
+        crtc_info = XRRGetCrtcInfo (dpy, res, output_info->crtc);
         set_transformation_matrix(dpy, &m, crtc_info->x, crtc_info->y,
                                   crtc_info->width, crtc_info->height);
         rc = apply_matrix(dpy, deviceid, &m);
+        XRRFreeCrtcInfo(crtc_info);
     } else
         printf("Unable to find output '%s'. "
                 "Output may not be connected.\n", output_name);
