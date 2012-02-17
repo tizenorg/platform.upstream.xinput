@@ -253,10 +253,9 @@ out:
 int
 map_to_output(Display *dpy, int argc, char *argv[], char *name, char *desc)
 {
-    int opcode, event, error;
-    int maj, min;
     char *output_name;
     XIDeviceInfo *info;
+    XRROutputInfo *output_info;
 
     if (argc < 2)
     {
@@ -272,14 +271,19 @@ map_to_output(Display *dpy, int argc, char *argv[], char *name, char *desc)
     }
 
     output_name = argv[1];
+    output_info = find_output_xrandr(dpy, output_name);
+    if (!output_info)
+    {
+        /* Output doesn't exist. Is this a (partial) non-RandR setup?  */
+        output_info = find_output_xrandr(dpy, "default");
+        if (output_info)
+        {
+            XRRFreeOutputInfo(output_info);
+            if (strncmp("HEAD-", output_name, strlen("HEAD-")) == 0)
+                return map_output_xinerama(dpy, info->deviceid, output_name);
+        }
+    } else
+        XRRFreeOutputInfo(output_info);
 
-    /* Check for RandR 1.2. Server bug causes the NVIDIA driver to
-     * report with RandR 1.3 support but it doesn't expose RandR outputs.
-     * Force Xinerama if NV-CONTROL is present */
-    if (XQueryExtension(dpy, "NV-CONTROL", &opcode, &event, &error) ||
-        !XQueryExtension(dpy, "RANDR", &opcode, &event, &error) ||
-        !XRRQueryVersion(dpy, &maj, &min) || (maj * 1000 + min) < 1002)
-       return map_output_xinerama(dpy, info->deviceid, output_name);
-    else
-       return map_output_xrandr(dpy, info->deviceid, output_name);
+    return map_output_xrandr(dpy, info->deviceid, output_name);
 }
