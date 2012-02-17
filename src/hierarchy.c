@@ -74,7 +74,7 @@ remove_master(Display* dpy, int argc, char** argv, char *name, char *desc)
     info = xi2_find_device_info(dpy, argv[0]);
 
     if (!info) {
-	fprintf(stderr, "unable to find device %s\n", argv[0]);
+	fprintf(stderr, "unable to find device '%s'\n", argv[0]);
 	return EXIT_FAILURE;
     }
 
@@ -97,7 +97,7 @@ remove_master(Display* dpy, int argc, char** argv, char *name, char *desc)
         if (argc >= 3) {
             info = xi2_find_device_info(dpy, argv[2]);
             if (!info) {
-                fprintf(stderr, "unable to find device %s\n", argv[2]);
+                fprintf(stderr, "unable to find device '%s'\n", argv[2]);
                 return EXIT_FAILURE;
             }
 
@@ -108,7 +108,7 @@ remove_master(Display* dpy, int argc, char** argv, char *name, char *desc)
         if (argc >= 4) {
             info = xi2_find_device_info(dpy, argv[3]);
             if (!info) {
-                fprintf(stderr, "unable to find device %s\n", argv[3]);
+                fprintf(stderr, "unable to find device '%s'\n", argv[3]);
                 return EXIT_FAILURE;
             }
 
@@ -155,12 +155,12 @@ change_attachment(Display* dpy, int argc, char** argv, char *name, char* desc)
     md_info= xi2_find_device_info(dpy, argv[1]);
 
     if (!sd_info) {
-	fprintf(stderr, "unable to find device %s\n", argv[0]);
+	fprintf(stderr, "unable to find device '%s'\n", argv[0]);
 	return EXIT_FAILURE;
     }
 
     if (!md_info) {
-	fprintf(stderr, "unable to find device %s\n", argv[1]);
+	fprintf(stderr, "unable to find device '%s'\n", argv[1]);
 	return EXIT_FAILURE;
     }
 
@@ -191,7 +191,7 @@ float_device(Display* dpy, int argc, char** argv, char* name, char* desc)
     info = xi2_find_device_info(dpy, argv[0]);
 
     if (!info) {
-	fprintf(stderr, "unable to find device %s\n", argv[0]);
+	fprintf(stderr, "unable to find device '%s'\n", argv[0]);
 	return EXIT_FAILURE;
     }
 

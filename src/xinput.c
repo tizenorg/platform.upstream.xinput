@@ -240,7 +240,7 @@ find_device_info(Display	*display,
 	     (is_id && devices[loop].id == id))) {
 	    if (found) {
 	        fprintf(stderr,
-	                "Warning: There are multiple devices named \"%s\".\n"
+	                "Warning: There are multiple devices named '%s'.\n"
 	                "To ensure the correct one is selected, please use "
 	                "the device ID instead.\n\n", name);
 		return NULL;

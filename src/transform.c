@@ -246,7 +246,7 @@ map_to_output(Display *dpy, int argc, char *argv[], char *name, char *desc)
     info = xi2_find_device_info(dpy, argv[0]);
     if (!info)
     {
-        fprintf(stderr, "unable to find device %s\n", argv[0]);
+        fprintf(stderr, "unable to find device '%s'\n", argv[0]);
         return EXIT_FAILURE;
     }
 

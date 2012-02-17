@@ -49,7 +49,7 @@ set_clientpointer(Display* dpy, int argc, char** argv, char* name, char *desc)
     info = xi2_find_device_info(dpy, argv[1]);
 
     if (!info) {
-	fprintf(stderr, "unable to find device %s\n", argv[1]);
+	fprintf(stderr, "unable to find device '%s'\n", argv[1]);
 	return EXIT_FAILURE;
     }
 
