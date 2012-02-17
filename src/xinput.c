@@ -368,17 +368,17 @@ main(int argc, char * argv[])
 
     if (display == NULL) {
 	fprintf(stderr, "Unable to connect to X server\n");
-	return EXIT_FAILURE;
+	goto out;
     }
 
     if (!XQueryExtension(display, "XInputExtension", &xi_opcode, &event, &error)) {
         printf("X Input extension not available.\n");
-        return EXIT_FAILURE;
+        goto out;
     }
 
     if (!xinput_version(display)) {
 	fprintf(stderr, "%s extension not available\n", INAME);
-	return EXIT_FAILURE;
+	goto out;
     }
 
     while(driver->func_name) {
@@ -394,6 +394,9 @@ main(int argc, char * argv[])
 
     usage();
 
+out:
+    if (display)
+        XCloseDisplay(display);
     return EXIT_FAILURE;
 }
 
