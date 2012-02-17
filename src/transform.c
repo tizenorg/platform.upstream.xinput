@@ -148,14 +148,15 @@ map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
     for (i = 0; i < res->noutput && !found; i++)
     {
         output_info = XRRGetOutputInfo(dpy, res, res->outputs[i]);
-        if (!output_info->crtc || output_info->connection != RR_Connected)
-            continue;
 
-        if (strcmp(output_info->name, output_name) == 0)
+        if (output_info->crtc && output_info->connection == RR_Connected &&
+            strcmp(output_info->name, output_name) == 0)
         {
             found = 1;
             break;
         }
+
+        XRRFreeOutputInfo(output_info);
     }
 
     /* crtc holds our screen info, need to compare to actual screen size */
@@ -169,6 +170,7 @@ map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
                                   crtc_info->width, crtc_info->height);
         rc = apply_matrix(dpy, deviceid, &m);
         XRRFreeCrtcInfo(crtc_info);
+        XRRFreeOutputInfo(output_info);
     } else
         printf("Unable to find output '%s'. "
                 "Output may not be connected.\n", output_name);
