@@ -135,13 +135,14 @@ set_transformation_matrix(Display *dpy, Matrix *m, int offset_x, int offset_y,
 #endif
 }
 
-static int
-map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
+/* Caller must free return value */
+static XRROutputInfo*
+find_output_xrandr(Display *dpy, const char *output_name)
 {
-    int i, found = 0;
-    int rc = EXIT_FAILURE;
     XRRScreenResources *res;
-    XRROutputInfo *output_info;
+    XRROutputInfo *output_info = NULL;
+    int i;
+    int found = 0;
 
     res = XRRGetScreenResources(dpy, DefaultRootWindow(dpy));
 
@@ -159,8 +160,26 @@ map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
         XRRFreeOutputInfo(output_info);
     }
 
+    XRRFreeScreenResources(res);
+
+    if (!found)
+        output_info = NULL;
+
+    return output_info;
+}
+
+static int
+map_output_xrandr(Display *dpy, int deviceid, const char *output_name)
+{
+    int rc = EXIT_FAILURE;
+    XRRScreenResources *res;
+    XRROutputInfo *output_info;
+
+    res = XRRGetScreenResources(dpy, DefaultRootWindow(dpy));
+    output_info = find_output_xrandr(dpy, output_name);
+
     /* crtc holds our screen info, need to compare to actual screen size */
-    if (found)
+    if (output_info)
     {
         XRRCrtcInfo *crtc_info;
         Matrix m;
