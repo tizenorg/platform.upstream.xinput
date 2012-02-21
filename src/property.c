@@ -97,6 +97,20 @@ print_property(Display *dpy, XDevice* dev, Atom property)
                             break;
                     }
                     break;
+                case XA_CARDINAL:
+                    switch(act_format)
+                    {
+                        case 8:
+                            printf("%u", *((unsigned char*)ptr));
+                            break;
+                        case 16:
+                            printf("%u", *((unsigned short*)ptr));
+                            break;
+                        case 32:
+                            printf("%lu", *((unsigned long*)ptr));
+                            break;
+                    }
+                    break;
                 case XA_STRING:
                     if (act_format != 8)
                     {
@@ -353,7 +367,7 @@ do_set_prop_xi1(Display *dpy, Atom type, int format, int argc, char **argv, char
 
     for (i = 0; i < nelements; i++)
     {
-        if (type == XA_INTEGER) {
+        if (type == XA_INTEGER || type == XA_CARDINAL) {
             switch (format)
             {
                 case 8:
@@ -440,6 +454,20 @@ print_property_xi2(Display *dpy, int deviceid, Atom property)
                             break;
                         case 32:
                             printf("%d", *((int32_t*)ptr));
+                            break;
+                    }
+                    break;
+                case XA_CARDINAL:
+                    switch(act_format)
+                    {
+                        case 8:
+                            printf("%u", *((uint8_t*)ptr));
+                            break;
+                        case 16:
+                            printf("%u", *((uint16_t*)ptr));
+                            break;
+                        case 32:
+                            printf("%u", *((uint32_t*)ptr));
                             break;
                     }
                     break;
@@ -626,7 +654,7 @@ do_set_prop_xi2(Display *dpy, Atom type, int format, int argc, char **argv, char
 
     for (i = 0; i < nelements; i++)
     {
-        if (type == XA_INTEGER) {
+        if (type == XA_INTEGER || type == XA_CARDINAL) {
             switch (format)
             {
                 case 8:
