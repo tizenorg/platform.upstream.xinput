@@ -147,7 +147,7 @@ static void print_rawevent(XIRawEvent *event)
     int i;
     double *val, *raw_val;
 
-    printf("    device: %d\n", event->deviceid);
+    printf("    device: %d (%d)\n", event->deviceid, event->sourceid);
     printf("    detail: %d\n", event->detail);
     printf("    valuators:\n");
 #if HAVE_XI21
