@@ -137,6 +137,16 @@ static entry drivers[] =
       "<device> [--type=atom|float|int] [--format=8|16|32] <property> <val> [<val> ...]",
       set_prop
     },
+    {
+      "disable",
+      "<device>",
+      disable,
+    },
+    {
+      "enable",
+      "<device>",
+      enable,
+    },
     {NULL, NULL, NULL
     }
 };

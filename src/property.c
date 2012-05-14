@@ -824,3 +824,15 @@ int set_prop(Display *display, int argc, char *argv[], char *name,
 
     return do_set_prop(display, type, format, argc, argv, name, desc);
 }
+
+int disable(Display *display, int argc, char *argv[], char *name, char *desc)
+{
+    char *new_argv[3] = { argv[0], "Device Enabled", "0" };
+    return set_prop(display, 3, new_argv, name, desc);
+}
+
+int enable(Display *display, int argc, char *argv[], char *name, char *desc)
+{
+    char *new_argv[3] = { argv[0], "Device Enabled", "1" };
+    return set_prop(display, 3, new_argv, name, desc);
+}

@@ -148,6 +148,16 @@ detected or RandR 1.2 or later is not available, a Xinerama output may be
 specified as "HEAD-N", with N being the Xinerama screen number. This option
 has no effect on relative devices.
 .PP
+.TP 8
+.B --enable \fIdevice\fP
+Enable the \fIdevice\fP. This call is equivalent to
+.B xinput --set-prop device \fI"Device Enabled"\fP 1
+.PP
+.TP 8
+.B --disable \fIdevice\fP
+Disable the \fIdevice\fP. This call is equivalent to
+.B xinput --set-prop device \fI"Device Enabled"\fP 0
+.PP
 \fIdevice\fP can be the device name as a string or the XID of the
 device.
 .PP
