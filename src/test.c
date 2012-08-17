@@ -98,6 +98,8 @@ print_events(Display	*dpy)
 {
     XEvent        Event;
 
+    setlinebuf(stdout);
+
     while(1) {
 	XNextEvent(dpy, &Event);
 
