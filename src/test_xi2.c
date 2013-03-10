@@ -365,25 +365,6 @@ test_xi2(Display	*display,
     XMapWindow(display, win);
     XSync(display, False);
 
-    {
-        XIGrabModifiers modifiers[] = {{0, 0}, {0, 0x10}, {0, 0x1}, {0, 0x11}};
-        int nmods = sizeof(modifiers)/sizeof(modifiers[0]);
-
-        mask.deviceid = 2;
-        memset(mask.mask, 0, mask.mask_len);
-        XISetMask(mask.mask, XI_KeyPress);
-        XISetMask(mask.mask, XI_KeyRelease);
-        XISetMask(mask.mask, XI_ButtonPress);
-        XISetMask(mask.mask, XI_ButtonRelease);
-        XISetMask(mask.mask, XI_Motion);
-        XIGrabButton(display, 2, 1, win, None, GrabModeAsync, GrabModeAsync,
-                False, &mask, nmods, modifiers);
-        XIGrabKeycode(display, 3, 24 /* q */, win, GrabModeAsync, GrabModeAsync,
-                False, &mask, nmods, modifiers);
-        XIUngrabButton(display, 3, 1, win, nmods - 2, &modifiers[2]);
-        XIUngrabKeycode(display, 3, 24 /* q */, win, nmods - 2, &modifiers[2]);
-    }
-
     mask.deviceid = (deviceid == -1) ? XIAllMasterDevices : deviceid;
     memset(mask.mask, 0, mask.mask_len);
     XISetMask(mask.mask, XI_RawKeyPress);
