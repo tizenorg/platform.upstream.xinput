@@ -325,20 +325,32 @@ test_xi2(Display	*display,
     XIEventMask *m;
     Window win;
     int deviceid = -1;
+    int use_root = 0;
     int rc;
 
     setlinebuf(stdout);
 
+    if (argc >= 1 && strcmp(argv[0], "--root") == 0) {
+        use_root = 1;
+
+        argc--;
+        argv++;
+    }
+
     rc = list(display, argc, argv, name, desc);
     if (rc != EXIT_SUCCESS)
         return rc;
+
+    if (use_root)
+        win = DefaultRootWindow(display);
+    else
+        win = create_win(display);
 
     if (argc >= 1) {
         XIDeviceInfo *info;
         info = xi2_find_device_info(display, argv[0]);
         deviceid = info->deviceid;
     }
-    win = create_win(display);
 
     /* Select for motion events */
     m = &mask[0];
@@ -379,15 +391,17 @@ test_xi2(Display	*display,
     XISetMask(m->mask, XI_RawTouchEnd);
 #endif
 
-    XISelectEvents(display, win, &mask[0], 1);
-    XISelectEvents(display, DefaultRootWindow(display), &mask[1], 1);
-    XMapWindow(display, win);
+    XISelectEvents(display, win, &mask[0], use_root ? 2 : 1);
+    if (!use_root) {
+        XISelectEvents(display, DefaultRootWindow(display), &mask[1], 1);
+        XMapWindow(display, win);
+    }
     XSync(display, False);
 
     free(mask[0].mask);
     free(mask[1].mask);
 
-    {
+    if (!use_root) {
         XEvent event;
         XMaskEvent(display, ExposureMask, &event);
         XSelectInput(display, win, 0);

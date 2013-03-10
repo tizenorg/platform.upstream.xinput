@@ -101,7 +101,7 @@ static entry drivers[] =
       set_clientpointer
     },
     { "test-xi2",
-      "<device>",
+      "[--root] <device>",
       test_xi2,
     },
     { "map-to-output",
