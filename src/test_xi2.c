@@ -363,9 +363,6 @@ test_xi2(Display	*display,
     if (m->deviceid == XIAllDevices)
         XISetMask(m->mask, XI_HierarchyChanged);
     XISetMask(m->mask, XI_PropertyEvent);
-    XISelectEvents(display, win, m, 1);
-    XMapWindow(display, win);
-    XSync(display, False);
 
     m = &mask[1];
     m->deviceid = (deviceid == -1) ? XIAllMasterDevices : deviceid;
@@ -381,7 +378,11 @@ test_xi2(Display	*display,
     XISetMask(m->mask, XI_RawTouchUpdate);
     XISetMask(m->mask, XI_RawTouchEnd);
 #endif
-    XISelectEvents(display, DefaultRootWindow(display), m, 1);
+
+    XISelectEvents(display, win, &mask[0], 1);
+    XISelectEvents(display, DefaultRootWindow(display), &mask[1], 1);
+    XMapWindow(display, win);
+    XSync(display, False);
 
     free(mask[0].mask);
     free(mask[1].mask);
