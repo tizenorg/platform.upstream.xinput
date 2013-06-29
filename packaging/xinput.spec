@@ -8,6 +8,7 @@ Summary:        Utility to configure and test X input devices
 Url:            http://xorg.freedesktop.org/
 Group:          System/X11
 Source0:        http://xorg.freedesktop.org/releases/individual/app/%{name}-%{version}.tar.bz2
+Source1001: 	xinput.manifest
 BuildRequires:  pkgconfig(inputproto) >= 2.0.99.1
 BuildRequires:  pkgconfig(pkg-config)
 BuildRequires:  pkgconfig(x11)
@@ -22,6 +23,7 @@ xinput is a utility to configure and test XInput devices.
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 %build
 %configure
@@ -31,6 +33,7 @@ make %{?_smp_mflags}
 %make_install
 
 %files
+%manifest %{name}.manifest
 %defattr(-,root,root)
 %license COPYING
 %{_bindir}/xinput
