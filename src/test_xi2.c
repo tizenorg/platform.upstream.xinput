@@ -326,7 +326,7 @@ test_xi2(Display	*display,
     int deviceid = -1;
     int rc;
 
-    setlinebuf(stdout);
+    setvbuf(stdout, NULL, _IOLBF, 0);
 
     rc = list(display, argc, argv, name, desc);
     if (rc != EXIT_SUCCESS)

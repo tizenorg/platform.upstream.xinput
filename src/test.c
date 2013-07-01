@@ -98,7 +98,7 @@ print_events(Display	*dpy)
 {
     XEvent        Event;
 
-    setlinebuf(stdout);
+    setvbuf(stdout, NULL, _IOLBF, 0);
 
     while(1) {
 	XNextEvent(dpy, &Event);
