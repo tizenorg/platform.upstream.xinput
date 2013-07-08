@@ -1,0 +1,8 @@
+Change-Id: I494f38d59ef89c9b450993db5c19daad8034183c
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Mon, 08 Jul 2013 09:38:51 -0700
+Reviewed-on: https://review.tizen.org/gerrit/4961
+Project: platform/upstream/xinput
+Branch: refs/heads/tizen
