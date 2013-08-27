@@ -2,7 +2,7 @@
 
 Name:           xinput
 Version:        1.6.0
-Release:        0
+Release:        1
 License:        MIT and HPND
 Summary:        Utility to configure and test X input devices
 Url:            http://xorg.freedesktop.org/
@@ -26,7 +26,7 @@ xinput is a utility to configure and test XInput devices.
 cp %{SOURCE1001} .
 
 %build
-%configure
+%configure --disable-static --libdir=%{_datadir}
 make %{?_smp_mflags}
 
 %install
