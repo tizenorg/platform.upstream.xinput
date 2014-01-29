@@ -1,4 +1,4 @@
-#
+%bcond_with x
 
 Name:           xinput
 Version:        1.6.0
@@ -17,6 +17,10 @@ BuildRequires:  pkgconfig(xi) >= 1.4.99.1
 BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  pkgconfig(xorg-macros) >= 1.3
 BuildRequires:  pkgconfig(xrandr)
+
+%if !%{with x}
+ExclusiveArch:
+%endif
 
 %description
 xinput is a utility to configure and test XInput devices.
